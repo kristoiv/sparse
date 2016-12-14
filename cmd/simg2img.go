@@ -21,6 +21,12 @@ func main() {
 	defer in.Close()
 
 	for _, file := range os.Args[2:] {
+		_, err = in.Seek(0, 0) // we seek to the start of the file on each round
+		if err != nil {
+			fmt.Printf("Unable to seek to the start of our file %q with error: %q\n", os.Args[1], err)
+			os.Exit(1)
+		}
+
 		out, err := os.Create(file)
 		if err != nil {
 			fmt.Printf("Unable to open output file %q with error: %q\n", file, err)
