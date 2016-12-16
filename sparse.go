@@ -28,9 +28,9 @@ type ChunkHeader struct {
 }
 
 const (
-	TYPE_RAW       = 0xcac1
-	TYPE_FILL      = 0xcac2
-	TYPE_DONT_CARE = 0xcac3
+	type_raw       = 0xcac1
+	type_fill      = 0xcac2
+	type_dont_care = 0xcac3
 )
 
 func readHeader(r io.Reader) (*SparseHeader, error) {
@@ -78,7 +78,7 @@ func readChunkHeader(r io.Reader) (*ChunkHeader, error) {
 		return nil, err
 	}
 
-	if h.ChunkType < TYPE_RAW || h.ChunkType > TYPE_DONT_CARE {
+	if h.ChunkType < type_raw || h.ChunkType > type_dont_care {
 		return nil, fmt.Errorf("Sparse file contains a chunk with unsupported chunk type (0x%x)", h.ChunkType)
 	}
 
@@ -86,12 +86,12 @@ func readChunkHeader(r io.Reader) (*ChunkHeader, error) {
 }
 
 func chunkReader(sparseHeader *SparseHeader, chunkHeader *ChunkHeader, r io.Reader) (io.Reader, error) {
-	if chunkHeader.ChunkType == TYPE_FILL {
-		return nil, errors.New("Error reading sparse file. Unsupported chunk type TYPE_FILL")
+	if chunkHeader.ChunkType == type_fill {
+		return nil, errors.New("Error reading sparse file. Unsupported chunk type type_fill")
 	}
 
 	var out io.Reader
-	if chunkHeader.ChunkType == TYPE_RAW {
+	if chunkHeader.ChunkType == type_raw {
 		// We use the underlying file
 		out = r
 	} else {

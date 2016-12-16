@@ -34,12 +34,8 @@ func main() {
 		}
 
 		fmt.Printf("Writing file %q\n", file)
-		decodedIn, err := sparse.Simg2imgReader(in)
-		if err != nil {
-			fmt.Printf("Unable parse sparse header for file %q with error: %q\n", os.Args[1], err)
-			os.Exit(1)
-		}
-		if _, err = io.Copy(out, decodedIn); err != nil {
+		writer := sparse.Simg2imgWriter(out)
+		if _, err = io.Copy(writer, in); err != nil {
 			fmt.Printf("Error decoding input file to output file %q with error: %q\n", file, err)
 			os.Exit(1)
 		}
