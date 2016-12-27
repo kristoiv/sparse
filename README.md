@@ -18,7 +18,7 @@ func simg2img(in_filename, out_filename string) error {
     }
     defer in.Close()
 
-    out, err := os.Create(out_filename)
+    out, err := os.OpenFile(out_filename, os.O_CREATE|os.O_WRONLY|os.O_TRUNC, 0644)
     if err != nil {
         return err
     }
@@ -40,7 +40,7 @@ func simg2img_alt(in_filename, out_filename string) error {
     }
     defer in.Close()
 
-    out, err := os.Create(out_filename)
+    out, err := os.OpenFile(out_filename, os.O_CREATE|os.O_WRONLY|os.O_TRUNC, 0644)
     if err != nil {
         return err
     }
