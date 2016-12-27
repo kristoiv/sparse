@@ -27,7 +27,7 @@ func main() {
 			os.Exit(1)
 		}
 
-		out, err := os.Create(file)
+		out, err := os.OpenFile(file, os.O_CREATE|os.O_WRONLY|os.O_TRUNC, 0644)
 		if err != nil {
 			fmt.Printf("Unable to open output file %q with error: %q\n", file, err)
 			os.Exit(1)
